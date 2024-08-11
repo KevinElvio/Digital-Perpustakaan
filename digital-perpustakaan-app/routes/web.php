@@ -35,6 +35,6 @@ require __DIR__.'/auth.php';
 Route::get('admin/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'admin']);
 
 Route::middleware(['auth'])->group(function(){
-    Route::get('book', [bookController::class, 'Book'])->middleware(['auth'])->name('book');
+    Route::get('book', [bookController::class, 'Book'])->name('book');
     Route::post('book', [bookController::class, 'create']);
 });

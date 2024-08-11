@@ -8,77 +8,103 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                {{-- <div class="p-6 text-gray-900">
-                    {{ __("You're in Add Book !!") }}
-                </div> --}}
+                @if (session('status'))
+                    <div class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 "
+                        role="alert">
+                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div>
+                            <span class="font-medium">{{ session('status') }}</span>
+                        </div>
+                    </div>
+                @endif
 
-                <form class="max-w-3xl mx-auto" action="{{ url('book') }}" method="POST">
+                <form class="max-w-3xl mx-auto" action="{{ url('book') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
 
-
+                    {{-- title section --}}
                     <div class="mb-5">
                         <label for="title" class="block mb-2 mt-10 text-sm font-bold text-gray-900 dark:text-black">
                             Title</label>
-                        <input type="title" id="title"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                            placeholder= "Add Title" required />
+                        <input type="text" id="title" name="title"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Add Title" value="{{ old('title') }}" required />
+                        @error('title')
+                            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
+                                <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Danger</span>
+                                <div>
+                                    <span class="font-medium">{{ $message }}</span>
+                                </div>
+                            </div>
+                        @enderror
                     </div>
 
 
-
-                    <button id="dropdownRadioButton" data-dropdown-toggle="dropdownDefaultRadio"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mb-5"
-                        type="button">Category<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 4 4 4-4" />
-                        </svg>
-                    </button>
-
-                    <!-- Dropdown menu -->
-                    <div id="dropdownDefaultRadio"
-                        class="z-10 hidden w-48 bg-blue-950 divide-y divide-gray-100 rounded-lg shadow">
-                        <ul class="p-3 space-y-3 text-sm text-gray-700 " aria-labelledby="dropdownRadioButton">
-                            <li>
-                                <div class="flex items-center">
-                                    <input id="default-radio-1" type="radio" value="" name="default-radio"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="default-radio-1"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Fiksi</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex items-center">
-                                    <input checked id="default-radio-2" type="radio" value=""
-                                        name="default-radio"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="default-radio-2"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Non
-                                        Fiksi</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex items-center">
-                                    <input id="default-radio-3" type="radio" value="" name="default-radio"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="default-radio-3"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sejarah</label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    {{-- category section --}}
+                    <label for="category" class="block mb-2 text-sm font-bold text-gray-900">Select
+                        an
+                        option</label>
+                    <select id="category" name="category_id" 
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-5">
+                        <option selected >Choose Category</option>
+                        <option value="1">Fiksi</option>
+                        <option value="2">Non Fiksi</option>
+                        <option value="3">Sejarah</option>
+                    </select>
+                    @error('category_id')
+                        <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
+                            <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="sr-only">Danger</span>
+                            <div>
+                                <span class="font-medium">{{ $message }}</span>
+                            </div>
+                        </div>
+                    @enderror
 
 
+
+                    {{-- description section --}}
                     <div class="mb-5">
                         <label for="description" class="block mb-2 text-sm font-bold text-gray-900 dark:text-black">
                             Description</label>
-                        <input type="description" id="description"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                            placeholder= "Add Description" required />
+                        <input type="text" id="description" name="description"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Add Description" value="{{ old('description') }}" required />
+
+                        @error('description')
+                            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
+                                <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Danger</span>
+                                <div>
+                                    <span class="font-medium">{{ $message }}</span>
+                                </div>
+                            </div>
+                        @enderror
                     </div>
 
 
-                    <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900">Choose
+
+
+                    {{-- quantity section --}}
+                    <label for="quantity-input" class="block mb-2 text-sm font-bold text-gray-900">Choose
                         quantity:</label>
                     <div class="relative flex items-center max-w-[8rem]">
                         <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input"
@@ -89,10 +115,9 @@
                                     stroke-width="2" d="M1 1h16" />
                             </svg>
                         </button>
-                        <input type="text" id="quantity-input" data-input-counter
-                            aria-describedby="helper-text-explanation"
-                            class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 "
-                            placeholder="999" required />
+                        <input type="text" id="quantity-input" name="quantity"
+                            class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5"
+                            placeholder="999" value="{{ old('quantity') }}" required />
                         <button type="button" id="increment-button" data-input-counter-increment="quantity-input"
                             class="bg-gray-100  hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100  focus:ring-2 focus:outline-none">
                             <svg class="w-3 h-3 text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -105,17 +130,49 @@
                     <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 ">Please
                         select a 5 digit number from 0 to 9.</p>
 
+                    @error('quantity')
+                        <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
+                            <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="sr-only">Danger</span>
+                            <div>
+                                <span class="font-medium">{{ $message }}</span>
+                            </div>
+                        </div>
+                    @enderror
 
 
 
+
+
+                    {{-- pdf upload --}}
                     <label class="block mb-2 text-sm font-medium text-gray-900 mt-5" for="default_size">Upload
                         PDF</label>
                     <input
                         class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 "
-                        id="default_size" type="file">
+                        id="default_size" type="file" name="file" value="{{ old('file') }}" accept="application/pdf">
+
+                    @error('file')
+                        <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
+                            <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="sr-only">Danger</span>
+                            <div>
+                                <span class="font-medium">{{ $message }}</span>
+                            </div>
+                        </div>
+                    @enderror
 
 
 
+
+                    {{-- image upload --}}
                     <label class="block mb-2 text-sm font-medium text-gray-900 mt-5" for="default_size">Upload
                         Book Cover</label>
                     <div class="flex items-center justify-center w-full">
@@ -132,16 +189,28 @@
                                         upload</span> or drag and drop</p>
                                 <p class="text-xs text-gray-500 ">JPEG, PNG, or JPG</p>
                             </div>
-                            <input id="dropzone-file" type="file" class="hidden" />
+                            <input id="dropzone-file" type="file" value="{{ old('cover') }}" class="hidden" name="cover" accept="image/jpeg,image/png,image/jpg"/>
                         </label>
                     </div>
+                    @error('cover')
+                        <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
+                            <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="sr-only">Danger</span>
+                            <div>
+                                <span class="font-medium">{{ $message }}</span>
+                            </div>
+                        </div>
+                    @enderror
 
 
 
-
+                    {{-- submit  --}}
                     <button type="submit"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 mb-10 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5">Submit</button>
-
 
                 </form>
 
