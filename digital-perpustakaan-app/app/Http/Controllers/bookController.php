@@ -9,8 +9,8 @@ class bookController extends Controller
 {
     public function Book()
     {
-        $book = books::get();
-        return view('add-book', compact('book'));
+        
+        return view('add-book');
     }
 
     public function create(Request $request)
