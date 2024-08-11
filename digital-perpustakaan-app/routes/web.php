@@ -42,4 +42,6 @@ Route::get('admin/dashboard', [AdminController::class, 'index'])->middleware(['a
 Route::middleware(['auth'])->group(function(){
     Route::get('book', [bookController::class, 'Book'])->name('book');
     Route::post('book', [bookController::class, 'create']);
+    Route::get('book/{id}/edit', [bookController::class, 'edit']);
+    Route::put('book/{id}/edit', [bookController::class, 'update']);
 });

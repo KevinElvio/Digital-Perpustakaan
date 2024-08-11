@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Add Book') }}
+            {{ __('Edit Book') }}
         </h2>
     </x-slot>
 
@@ -23,9 +23,10 @@
                     </div>
                 @endif
 
-                <form class="max-w-3xl mx-auto" action="{{ url('book') }}" method="POST"
+                <form class="max-w-3xl mx-auto" action="{{ url('book/'.$books->id.'/edit') }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
 
                     {{-- title section --}}
                     <div class="mb-5">
@@ -33,7 +34,7 @@
                             Title</label>
                         <input type="text" id="title" name="title"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder="Add Title" value="{{ old('title') }}" required />
+                            placeholder="Add Title" value="{{ $books->title }}" required />
                         @error('title')
                             <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
                                 <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
@@ -83,7 +84,7 @@
                             Description</label>
                         <input type="text" id="description" name="description"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder="Add Description" value="{{ old('description') }}" required />
+                            placeholder="Add Description" value="{{ $books->description }}" required />
 
                         @error('description')
                             <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
@@ -110,7 +111,7 @@
                         
                         <input type="number" id="quantity-input" name="quantity"
                             class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1"
-                            placeholder="999" value="{{ old('quantity') }}" required />
+                            placeholder="999" value="{{ $books->quantity }}" required />
                         
                     </div>
                     <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 ">Please
@@ -139,7 +140,7 @@
                         PDF</label>
                     <input
                         class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 "
-                        id="default_size" type="file" name="file" value="{{ old('file') }}" accept="application/pdf">
+                        id="default_size" type="file" name="file" value="{{ $books->file }}" accept="application/pdf">
 
                     @error('file')
                         <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
@@ -175,7 +176,7 @@
                                         upload</span> or drag and drop</p>
                                 <p class="text-xs text-gray-500 ">JPEG, PNG, or JPG</p>
                             </div>
-                            <input id="dropzone-file" type="file" value="{{ old('cover') }}" class="hidden" name="cover" accept="image/jpeg,image/png,image/jpg"/>
+                            <input id="dropzone-file" type="file" value="{{ $books->cover }}" class="hidden" name="cover" accept="image/jpeg,image/png,image/jpg"/>
                         </label>
                     </div>
                     @error('cover')
@@ -196,7 +197,7 @@
 
                     {{-- submit  --}}
                     <button type="submit"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 mb-10 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5">Submit</button>
+                        class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 mb-10 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5">Edit</button>
 
                 </form>
 
