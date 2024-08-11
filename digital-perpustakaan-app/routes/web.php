@@ -37,11 +37,17 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('admin/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'admin']);
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth', 'admin'])->group(function(){
+    Route::get('admin/dashboard', [AdminController::class, 'index']);
+    
+});
+
+
+Route::middleware(['auth', 'book.owner'])->group(function(){
     Route::get('book', [bookController::class, 'Book'])->name('book');
     Route::post('book', [bookController::class, 'create']);
     Route::get('book/{id}/edit', [bookController::class, 'edit']);
     Route::put('book/{id}/edit', [bookController::class, 'update']);
+    Route::delete('book/{id}/delete', [bookController::class, 'delete']);
 });

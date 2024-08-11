@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\books;
 use App\Models\categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class bookController extends Controller
 {
@@ -58,6 +59,10 @@ class bookController extends Controller
     public function edit(int $id)
     {
         $books = books::findOrFail($id);
+        if($books->user_id != auth()->id() && auth()->user()->usertype != 'admin' )
+        {
+            return redirect()->route('dashboard')->with('error', 'Unauthorized Access');
+        }
         return view('edit-book', compact('books'));
     }
 
@@ -100,6 +105,14 @@ class bookController extends Controller
         ]);
 
         return redirect('dashboard')->with('status', 'Book Update');
+    }
+
+    public function delete( int $id)
+    {
+        $books = books::findOrFail($id);
+        $books->delete();
+
+        return redirect()->back()->with('status', 'Book Delete');
     }
 
 }
