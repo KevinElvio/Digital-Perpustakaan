@@ -114,7 +114,7 @@
                         
                     </div>
                     <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 ">Please
-                        select a 5 digit number from 0 to 9.</p>
+                        select a digit number.</p>
 
                     @error('quantity')
                         <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
