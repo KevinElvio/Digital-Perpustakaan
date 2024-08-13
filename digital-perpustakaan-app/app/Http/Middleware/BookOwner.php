@@ -19,7 +19,7 @@ class BookOwner
     {
         $book = books::findOrFail($request->route('id'));
 
-        if($book && ($book->user_id == Auth()->id() || Auth::user()->usertype != 'user' )) 
+        if($book && ($book->user_id == Auth()->id() || Auth()->user()->usertype != 'user')) 
         {
             return $next($request);
         }

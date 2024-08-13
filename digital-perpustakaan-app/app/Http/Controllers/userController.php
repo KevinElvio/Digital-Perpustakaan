@@ -9,7 +9,7 @@ class userController extends Controller
 {
     public function index()
     {
-        $book = books::Paginate(20);
+        $book = books::Paginate(8);
         return view('dashboard', compact('book'));
     }
 }

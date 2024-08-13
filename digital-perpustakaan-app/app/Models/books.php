@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class books extends Model
 {
+    protected $table = 'books';
     protected $fillable = ['title', 'description', 'quantity', 'category_id', 'user_id', 'file', 'cover'];
 
     public function user():BelongsTo{

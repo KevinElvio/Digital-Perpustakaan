@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\books;
 use App\Models\categories;
+use App\Exports\BooksExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class bookController extends Controller
 {
     public function Book()
     {
-        
         return view('add-book');
     }
 
@@ -53,14 +54,13 @@ class bookController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect('book')->with('status', 'Book Created');
+        return redirect('dashboard')->with('status', 'Book Created');
     }
 
     public function edit(int $id)
     {
         $books = books::findOrFail($id);
-        if($books->user_id != auth()->id() && auth()->user()->usertype != 'admin' )
-        {
+        if ($books->user_id != auth()->id() && auth()->user()->usertype != 'admin') {
             return redirect()->route('dashboard')->with('error', 'Unauthorized Access');
         }
         return view('edit-book', compact('books'));
@@ -107,12 +107,27 @@ class bookController extends Controller
         return redirect('dashboard')->with('status', 'Book Update');
     }
 
-    public function delete( int $id)
+    public function delete(int $id)
     {
         $books = books::findOrFail($id);
         $books->delete();
 
         return redirect()->back()->with('status', 'Book Delete');
     }
+
+    public function filter(Request $request)
+    {
+        $categories = $request->input('categories', []);
+    
+        $books = Book::when(!empty($categories), function ($query) use ($categories) {
+            $query->whereIn('category_id', $categories);
+        })->get();
+    
+        return view('books.index', compact('books'));
+    }
+    
+
+
+
 
 }

@@ -40,14 +40,16 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('admin/dashboard', [AdminController::class, 'index']);
-    
+    Route::get('admin/export', [AdminController::class, 'export']);
 });
 
 
-Route::middleware(['auth', 'book.owner'])->group(function(){
+Route::middleware(['auth'])->group(function(){
     Route::get('book', [bookController::class, 'Book'])->name('book');
     Route::post('book', [bookController::class, 'create']);
-    Route::get('book/{id}/edit', [bookController::class, 'edit']);
+    Route::get('book/{id}/edit', [bookController::class, 'edit'])->middleware('book.owner');
     Route::put('book/{id}/edit', [bookController::class, 'update']);
-    Route::delete('book/{id}/delete', [bookController::class, 'delete']);
+    Route::delete('book/{id}/delete', [bookController::class, 'delete'])->middleware('book.owner');
+
+
 });
